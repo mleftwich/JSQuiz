@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+
+    <!-- title and start game button -->
+    <section>
+      <h1>JavaScript Quiz</h1>
+      <button id="start-game">Start</button>
+    </section>
+
+     <!-- timer -->
+     <section>
+      <h3 id="timer"></h3>
+     </section>
+
+    <!-- question section -->
+    <section id="questions">
+      <h1 id="question-title"></h1>
+    </section>
+    <!-- choices -->
+    <ul id="answers">
+     
+    </ul>
+   
+    
+    <!-- end game screen -->
+    <section id="gameover">
+      <h1>Game over</h1>
+      <p>Your score is: <span id="result-span">10</span></p>
+
+      <!--form to enter intials -->
+      <form id="form-initials">
+        <input type="text" placeholder="intitals-here" />
+      </form>
+      <!-- button to save initials -->
+      <button type="submit">Save</button>
+    </section>
+    <!-- all the high scoreds page -->
+    <section id="highscores">
+      <h1>Highscores</h1>
+      <ul>
+        <li class="highscore-items">Matt- 10</li>
+      </ul>
+      <a href="index.html">home</a>
+    </section>
+
+    <script src="assets/java.js"></script>
+  </body>
+</html>
