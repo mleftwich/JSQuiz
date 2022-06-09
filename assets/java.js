@@ -240,28 +240,24 @@ const questions = [
   },
 ];
 
- 
-
 // Grab question function
 
 function grabQuestion(questionIndex) {
   // Get Question
- // let qIndex = 0;
+  // let qIndex = 0;
   const question = questions[questionIndex];
-
   questionEl.textContent = question.title;
-
+  choicesEl.textContent = "";
   // Generate choices
   let choices = question.choices;
   for (let index = 0; index < choices.length; index++) {
     let choice = choices[index];
 
     // Create buttons for choices
-    
     const li = document.createElement("li");
     const button = document.createElement("button");
     button.setAttribute("class", "btn");
-    li.setAttribute("class", "list");
+    li.setAttribute("id", "list");
     button.textContent = choice.title;
 
     // Attach buttons to document
@@ -276,11 +272,7 @@ function grabQuestion(questionIndex) {
       }
       newQuestion = questionIndex + 1;
       grabQuestion(newQuestion);
-      let oldBtn = document.querySelector('.list')
-      oldBtn.parentNode.removeChild(oldBtn);
     });
-   
-    
   }
 }
 
@@ -301,18 +293,13 @@ function onStart() {
       viewScores.style.display = "";
     }
   }, 1000);
-  }
-
-
+}
 
 // Setting and displaying timer - end game if timer runs out
-
-
- 
 
 // Start game when buttons clicked
 
 startGame.addEventListener("click", function (event) {
   onStart();
   grabQuestion(0);
-  });
+});
