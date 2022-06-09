@@ -7,6 +7,8 @@ const viewScores = document.getElementById("highscores");
 const timer = document.getElementById("timer");
 const startGame = document.getElementById("start-game");
 let timeValue = "60";
+let qIndex = "0";
+let nextQuestion = "";
 
 // Setting fields to hidden initially
 
@@ -238,32 +240,47 @@ const questions = [
   },
 ];
 
+ 
+
 // Grab question function
 
 function grabQuestion(questionIndex) {
   // Get Question
+ // let qIndex = 0;
+  const question = questions[questionIndex];
 
-  let qIndex = 0;
-  const question = questions[qIndex];
   questionEl.textContent = question.title;
 
   // Generate choices
-
   let choices = question.choices;
   for (let index = 0; index < choices.length; index++) {
     let choice = choices[index];
-   
-    // Create buttons for choices 
-   
+
+    // Create buttons for choices
+    
     const li = document.createElement("li");
     const button = document.createElement("button");
     button.setAttribute("class", "btn");
+    li.setAttribute("class", "list");
     button.textContent = choice.title;
-   
+
     // Attach buttons to document
-   
     li.appendChild(button);
     choicesEl.append(li);
+    button.addEventListener("click", function (event) {
+      if (choice.isAnswer) {
+        alert("correct!");
+      } else {
+        alert("sorry not quite");
+        timeValue = timeValue - 10;
+      }
+      newQuestion = questionIndex + 1;
+      grabQuestion(newQuestion);
+      let oldBtn = document.querySelector('.list')
+      oldBtn.parentNode.removeChild(oldBtn);
+    });
+   
+    
   }
 }
 
@@ -271,21 +288,10 @@ function grabQuestion(questionIndex) {
 
 function onStart() {
   // Reveal fields
-
   timer.style.display = "";
   questionEl.style.display = "";
   choicesEl.style.display = "";
   startGame.style.display = "none";
-}
-
-// Start game when buttons clicked
-
-startGame.addEventListener("click", function (event) {
-  onStart();
-  grabQuestion();
-
-  // Setting and displaying timer - end game if timer runs out
-
   timerCount = setInterval(function () {
     timeValue = timeValue - 1;
     timer.textContent = "Time Remaining: " + timeValue;
@@ -295,6 +301,18 @@ startGame.addEventListener("click", function (event) {
       viewScores.style.display = "";
     }
   }, 1000);
-});
+  }
 
 
+
+// Setting and displaying timer - end game if timer runs out
+
+
+ 
+
+// Start game when buttons clicked
+
+startGame.addEventListener("click", function (event) {
+  onStart();
+  grabQuestion(0);
+  });
