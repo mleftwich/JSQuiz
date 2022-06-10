@@ -6,9 +6,12 @@ const endGame = document.getElementById("gameover");
 const viewScores = document.getElementById("highscores");
 const timer = document.getElementById("timer");
 const startGame = document.getElementById("start-game");
+const scoreList = document.getElementById("scorelist");
+let result = document.getElementById("result-span");
 let timeValue = "60";
 let qIndex = "0";
 let nextQuestion = "";
+let userScore = "0";
 
 // Setting fields to hidden initially
 
@@ -244,7 +247,6 @@ const questions = [
 
 function grabQuestion(questionIndex) {
   // Get Question
-  // let qIndex = 0;
   const question = questions[questionIndex];
   questionEl.textContent = question.title;
   choicesEl.textContent = "";
@@ -265,8 +267,11 @@ function grabQuestion(questionIndex) {
     choicesEl.append(li);
     button.addEventListener("click", function (event) {
       if (choice.isAnswer) {
+        // Give correct feedback and add score
         alert("correct!");
+       userScore++
       } else {
+        // Give incorrect feedback and deduct time
         alert("sorry not quite");
         timeValue = timeValue - 10;
       }
@@ -289,9 +294,8 @@ function onStart() {
     timer.textContent = "Time Remaining: " + timeValue;
     if (timeValue <= 0) {
       clearInterval(timerCount);
-      endGame.style.display = "";
-      viewScores.style.display = "";
-    }
+      onFinish();
+      }
   }, 1000);
 }
 
@@ -303,3 +307,15 @@ startGame.addEventListener("click", function (event) {
   onStart();
   grabQuestion(0);
 });
+
+function onFinish() {
+  timer.style.display = "none";
+  endGame.style.display = "";
+  viewScores.style.display = "";
+  result.textContent = userScore + "/10";
+  const scoreLi = document.createElement("li");
+  const scoreEl = document.createElement("span");
+  scoreEl.textContent = userScore;
+  scoreLi.appendChild(scoreEl);
+  viewScores.append(scoreLi);
+}
