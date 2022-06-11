@@ -7,6 +7,8 @@ const viewScores = document.getElementById("highscores");
 const timer = document.getElementById("timer");
 const startGame = document.getElementById("start-game");
 const scoreList = document.getElementById("scorelist");
+const submitUser = document.getElementById("submitBtn");
+const newGame = document.getElementById("newgame");
 let result = document.getElementById("result-span");
 let timeValue = "60";
 let qIndex = "0";
@@ -20,6 +22,7 @@ choicesEl.style.display = "none";
 endGame.style.display = "none";
 viewScores.style.display = "none";
 timer.style.display = "none";
+newGame.style.display = "none";
 
 // Creating array for questions
 
@@ -243,6 +246,18 @@ const questions = [
   },
 ];
 
+// Start game when buttons clicked
+
+startGame.addEventListener("click", function (event) {
+  onStart();
+  grabQuestion(0);
+});
+
+submitUser.addEventListener("click", function (event) {
+  event.preventDefault;
+  showScores();
+});
+
 // Grab question function
 
 function grabQuestion(questionIndex) {
@@ -268,15 +283,20 @@ function grabQuestion(questionIndex) {
     button.addEventListener("click", function (event) {
       if (choice.isAnswer) {
         // Give correct feedback and add score
-        alert("correct!");
-       userScore++
+        alert("Correct!");
+        userScore++;
       } else {
         // Give incorrect feedback and deduct time
-        alert("sorry not quite");
+        alert("Sorry not quite");
         timeValue = timeValue - 10;
       }
+      // Next question or end game if all questions answered
       newQuestion = questionIndex + 1;
-      grabQuestion(newQuestion);
+      if (newQuestion >= questions.length) {
+        onFinish();
+      } else {
+        grabQuestion(newQuestion);
+      }
     });
   }
 }
@@ -289,33 +309,53 @@ function onStart() {
   questionEl.style.display = "";
   choicesEl.style.display = "";
   startGame.style.display = "none";
-  timerCount = setInterval(function () {
+  endGame.style.display = "none";
+  viewScores.style.display = "none";
+
+  // Start timer
+
+  timerCount = setInterval(function (myTimer) {
     timeValue = timeValue - 1;
     timer.textContent = "Time Remaining: " + timeValue;
     if (timeValue <= 0) {
       clearInterval(timerCount);
       onFinish();
-      }
+    }
   }, 1000);
 }
 
-// Setting and displaying timer - end game if timer runs out
-
-// Start game when buttons clicked
-
-startGame.addEventListener("click", function (event) {
-  onStart();
-  grabQuestion(0);
-});
+// End game function
 
 function onFinish() {
   timer.style.display = "none";
+  questionEl.style.display = "none";
+  choicesEl.style.display = "none";
   endGame.style.display = "";
-  viewScores.style.display = "";
   result.textContent = userScore + "/10";
+  clearInterval(timerCount);
+}
+
+// Highscores and new game function
+
+function showScores() {
+  const userName = document.getElementById("userinitials").value;
+  viewScores.style.display = "";
+  newGame.style.display = "";
   const scoreLi = document.createElement("li");
   const scoreEl = document.createElement("span");
-  scoreEl.textContent = userScore;
+  scoreEl.textContent = userName + ": " + userScore;
   scoreLi.appendChild(scoreEl);
   viewScores.append(scoreLi);
+
+  // New Game
+
+  newGame.addEventListener("click", function (event) {
+    event.preventDefault;
+    timerCount = setInterval(timerCount, 1000);
+    timeValue = "60";
+    newGame.style.display = "none";
+    userScore = "0";
+    grabQuestion(0);
+    onStart();
+  });
 }

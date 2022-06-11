@@ -15,36 +15,41 @@
     <title>Simple JavaScript Quiz</title>
   </head>
   <body>
-    <!-- title and start game button -->
+   
     <section class="content">
+
+    <!-- title and start game button -->
       <h1>JavaScript Quiz</h1>
       <button id="start-game">Start</button>
    
-
-    <!-- timer -->
-    <section>
-      <h3 id="timer"></h3>
-    </section>
-
-    <!-- question section -->
+   <!-- question section -->
     <section id="questions">
       <h1 id="question-title"></h1>
     </section>
     <!-- choices -->
     <ul id="answers"></ul>
 
+     <!-- timer -->
+     <section>
+      <h3 id="timer"></h3>
+    </section>
+
     <!-- end game screen -->
     <section id="gameover">
       <h1>Game over</h1>
       <p>Your score is: <span id="result-span"></span></p>
 
+
       <!--form to enter intials -->
       <form id="form-initials">
-        <input type="text" placeholder="Enter Your Initials" />
+        <input type="text" placeholder="Enter Your Initials" id="userinitials" />
       </form>
+
       <!-- button to save initials -->
-      <button type="submit">Save</button>
+      <button type="submit" id="submitBtn">Save</button>
     </section>
+
+
     <!-- all the high scoreds page -->
     <section id="highscores">
       <h1>Highscores</h1>
@@ -53,8 +58,12 @@
       
     </section>
 
+   <!-- try again button -->
+
+    <button type="submit" id="newgame">Try Again</button>
+
     <script src="assets/java.js"></script>
-  </section>
+
 </section>
   </body>
 </html>
